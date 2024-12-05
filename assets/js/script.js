@@ -1,3 +1,20 @@
+const modal = document.getElementById("modal");
+const closeModalButton = document.getElementById("closeModal");
+const neverShowAgainButton = document.getElementById("neverShowAgain");
+
+if (localStorage.getItem("hideModal") === "true") {
+  modal.close();
+}
+
+closeModalButton.addEventListener("click", () => {
+  modal.close();
+});
+
+neverShowAgainButton.addEventListener("click", () => {
+  localStorage.setItem("hideModal", "true");
+  modal.close();
+});
+
 const cards = document.querySelectorAll('.memory-card');
 
 let hasFlippedCard = false;
@@ -61,3 +78,19 @@ function resetBoard() {
 })();
 
 cards.forEach(card => card.addEventListener('click', flipCard));
+
+let clicks = 0;
+
+function shuffleAfterClicks() {
+  clicks++;
+  if (clicks % 5 === 0) {
+    const cards = document.querySelectorAll('.memory-card');
+    cards.forEach((card) => {
+      let randomPos = Math.floor(Math.random() * 12);
+      card.style.order = randomPos;
+    });
+    alert("Les cartes se mélangent ! Bonne chance !");
+  }
+}
+
+cards.forEach((card) => card.addEventListener('click', shuffleAfterClicks));
